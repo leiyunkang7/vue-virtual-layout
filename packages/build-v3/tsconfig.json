@@ -1,0 +1,27 @@
+{
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "include": [
+    "rollup.config.*",
+    "../vite-project",
+    "../vite-project/**/*.*",
+    "/home/leiyunkang/code/vue-virtual-layout/packages/vite-project/src/components/vue-virtual-layout/**/*.*",
+    "/home/leiyunkang/code/vue-virtual-layout/packages/vite-project/src/components/vue-virtual-layout/main.tsx"
+  ],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "emitDeclarationOnly": true,
+    "noEmit": true,
+    "composite": true,
+    "types": ["node"],
+    "jsx": "preserve",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
+  }
+}
