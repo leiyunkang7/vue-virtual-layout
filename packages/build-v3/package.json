@@ -2,6 +2,12 @@
   "name": "@vue-virtual-layout/v3",
   "version": "0.0.0",
   "private": true,
+  "main": "./dist/vue-virtual-layout.cjs",
+  "module": "./dist/vue-virtual-layout.mjs",
+  "types": "./dist/vue-virtual-layout.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
   },
@@ -19,6 +25,7 @@
     "jsdom": "^22.0.0",
     "rollup": "^3.23.1",
     "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-esbuild": "^5.0.0",
     "typescript": "~5.0.4",
     "vue": "^3.3.4",
     "vue-tsc": "^1.6.4"

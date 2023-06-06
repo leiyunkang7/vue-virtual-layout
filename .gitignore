@@ -19,3 +19,5 @@ types
 coverage
 .eslintcache
 .vitepress/cache
+tsconfig.tsbuildinfo
+.rollup.cache

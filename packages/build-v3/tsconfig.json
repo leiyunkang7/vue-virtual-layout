@@ -1,27 +1,33 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
-  "include": [
-    "rollup.config.*",
-    "../vite-project",
-    "../vite-project/**/*.*",
-    "/home/leiyunkang/code/vue-virtual-layout/packages/vite-project/src/components/vue-virtual-layout/**/*.*",
-    "/home/leiyunkang/code/vue-virtual-layout/packages/vite-project/src/components/vue-virtual-layout/main.tsx"
-  ],
-  "exclude": ["node_modules"],
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2017",
     "module": "esnext",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "emitDeclarationOnly": true,
-    "noEmit": true,
-    "composite": true,
-    "types": ["node"],
-    "jsx": "preserve",
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
     "declaration": true,
-    "declarationDir": "./dist",
+    "declarationDir": "./types",
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "jsx": "preserve",
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true
-  }
+    "skipDefaultLibCheck": true,
+    "noUnusedLocals": true
+  },
+  "include": [
+    "rollup.config.*",
+    "../vite-project",
+    "../vite-project/**/*.*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.md",
+    "**/dist",
+    "packages/.test",
+    "packages/_docs"
+  ]
 }
