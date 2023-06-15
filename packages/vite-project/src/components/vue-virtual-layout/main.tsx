@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue-demi'
 import HeaderComponent from './Header'
 import Sidebar from './Sidebar'
+import './style.css'
 
 export default defineComponent({
   components: {

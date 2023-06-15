@@ -1,4 +1,4 @@
-<script  lang="ts">
+<script lang="ts">
 import VueVirtualLayout from '@vue-virtual-layout/v2'
 
 export default {

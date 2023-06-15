@@ -1,12 +1,12 @@
-
 import type { RollupOptions } from 'rollup';
 import { resolve } from 'node:path';
-import PluginDts from "rollup-plugin-dts";
-// import typescript from '@rollup/plugin-typescript';
 import { createVuePlugin } from 'vite-plugin-vue2'
 import path from 'path';
-// import PluginResolve from '@rollup/plugin-node-resolve';
 import esbuild from 'rollup-plugin-esbuild';
+import postcss from 'rollup-plugin-postcss'
+import tailwindcss from "tailwindcss";
+import autoprefixer from 'autoprefixer';
+import PluginDts from "rollup-plugin-dts";
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const input = resolve(__dirname, '../vite-project/src/components/vue-virtual-layout/index.ts')
@@ -32,17 +32,20 @@ const config: RollupOptions[] = [
     ],
     external: [...externals],
     plugins: [
+
       createVuePlugin({
         jsx: true,
         jsxOptions: {
           compositionAPI: true
         }
       }),
+      postcss({
+        extensions: ['.css'],
+        extract: resolve(__dirname, './dist/vue-virtual-layout.css'),
+        sourceMap: true,
+        plugins: [ tailwindcss,  autoprefixer],
+      }),
       esbuild(),
-      // typescript(),
-      // PluginResolve({
-      //   extensions: ['.js', '.jsx', '.ts', '.tsx']
-      // }),
     ],
   },
   {

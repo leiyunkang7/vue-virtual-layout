@@ -1,4 +1,4 @@
-import { defineComponent } from "vue-demi"
+import { defineComponent } from 'vue-demi'
 import VueVirtualLayout from '@/components/vue-virtual-layout'
 
 export default defineComponent({

@@ -2,11 +2,12 @@
 import type { RollupOptions } from 'rollup';
 import { resolve } from 'node:path';
 import PluginDts from "rollup-plugin-dts";
-// import typescript from '@rollup/plugin-typescript';
 import vue2 from '@vitejs/plugin-vue2'
 import vueJsx from '@vitejs/plugin-vue2-jsx'
 import path from 'path';
-// import PluginResolve from '@rollup/plugin-node-resolve';
+import postcss from 'rollup-plugin-postcss'
+import tailwindcss from "tailwindcss";
+import autoprefixer from 'autoprefixer';
 import esbuild from 'rollup-plugin-esbuild';
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -34,6 +35,12 @@ const config: RollupOptions[] = [
     plugins: [
       vue2(),
       vueJsx(),
+      postcss({
+        extensions: ['.css'],
+        extract: resolve(__dirname, './dist/vue-virtual-layout.css'),
+        sourceMap: true,
+        plugins: [ tailwindcss,  autoprefixer],
+      }),
       esbuild(),
       // typescript(),
       // PluginResolve({
