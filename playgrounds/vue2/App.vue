@@ -1,16 +1,22 @@
-<script lang="ts">
+<script >
 import VueVirtualLayout from '@vue-virtual-layout/v2'
+import ItemComponent from './item-component.vue'
 
 export default {
   components: {
     VueVirtualLayout
-  }
+  },
+  data() {
+    return {
+      ItemComponent
+    }
+  },
 }
 
 </script>
 
 <template>
   <div>
-    <VueVirtualLayout text="按钮"></VueVirtualLayout>
+    <VueVirtualLayout type="button" text="我是按钮" :itemComponent="ItemComponent"></VueVirtualLayout>
   </div>
 </template>

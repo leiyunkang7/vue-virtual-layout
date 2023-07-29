@@ -33,7 +33,7 @@ const config: RollupOptions[] = [
     ],
     external: [...externals],
     plugins: [
-      vue2(),
+      vue2() as any,
       vueJsx(),
       postcss({
         extensions: ['.css'],

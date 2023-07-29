@@ -38,7 +38,7 @@ const config: RollupOptions[] = [
         jsxOptions: {
           compositionAPI: true
         }
-      }),
+      }) as any,
       postcss({
         extensions: ['.css'],
         extract: resolve(__dirname, './dist/vue-virtual-layout.css'),

@@ -5,7 +5,8 @@ import {
   onMounted,
   onUnmounted,
   ref,
-  watch
+  watch,
+  isVue3
 } from 'vue-demi'
 import Virtual from './virtual'
 import { Item, Slot } from './item'
@@ -31,6 +32,7 @@ interface Range {
 export default defineComponent({
   name: 'VirtualList',
   props: VirtualProps,
+  emits: ['totop', 'scroll', 'tobottom', 'resized'],
   setup(props, { emit, slots, expose }) {
     const isHorizontal = props.direction === 'horizontal'
     const directionKey = isHorizontal ? 'scrollLeft' : 'scrollTop'
@@ -72,7 +74,7 @@ export default defineComponent({
      */
     // get item size by id
     const getSize = (id: any) => {
-      return virtual.sizes.get(id)
+      return virtual.sizes?.get(id)
     }
     const getOffset = () => {
       if (props.pageMode) {
@@ -124,6 +126,9 @@ export default defineComponent({
 
     const getUniqueIdFromDataSources = () => {
       const { dataKey, dataSources = [] } = props
+      if (!dataKey) {
+        return []
+      }
       return dataSources.map((dataSource: any) =>
         typeof dataKey === 'function' ? dataKey(dataSource) : dataSource[dataKey]
       )
@@ -173,7 +178,7 @@ export default defineComponent({
     // so those components that are reused will not trigger lifecycle mounted
     const getRenderSlots = () => {
       const slots = []
-      const { start, end } = range.value
+      const { start, end } = range.value ?? { start: 0, end: 0 }
       const {
         dataSources,
         dataKey,
@@ -188,7 +193,9 @@ export default defineComponent({
         const dataSource = dataSources[index]
         if (dataSource) {
           const uniqueKey =
-            typeof dataKey === 'function' ? dataKey(dataSource) : dataSource[dataKey]
+            typeof dataKey === 'function'
+              ? dataKey(dataSource)
+              : (dataSource as any)[dataKey as any]
           if (typeof uniqueKey === 'string' || typeof uniqueKey === 'number') {
             slots.push(
               <Item
@@ -267,7 +274,7 @@ export default defineComponent({
 
     // get the total number of stored (rendered) items
     const getSizes = () => {
-      return virtual.sizes.size
+      return virtual.sizes?.size
     }
 
     /**
@@ -279,7 +286,7 @@ export default defineComponent({
 
     // set back offset when awake from keep-alive
     onActivated(() => {
-      scrollToOffset(virtual.offset)
+      scrollToOffset(virtual.offset ?? 0)
     })
 
     onMounted(() => {
@@ -309,22 +316,23 @@ export default defineComponent({
     /**
      * public methods
      */
-    expose({
-      scrollToBottom,
-      getSizes,
-      getSize,
-      getOffset,
-      getScrollSize,
-      getClientSize,
-      scrollToOffset,
-      scrollToIndex
-    })
+    isVue3 &&
+      expose({
+        scrollToBottom,
+        getSizes,
+        getSize,
+        getOffset,
+        getScrollSize,
+        getClientSize,
+        scrollToOffset,
+        scrollToIndex
+      })
 
     return () => {
       const {
         pageMode,
-        rootTag: RootTag,
-        wrapTag: WrapTag,
+        rootTag,
+        wrapTag,
         wrapClass,
         wrapStyle,
         headerTag,
@@ -335,6 +343,8 @@ export default defineComponent({
         footerStyle
       } = props
       const { padFront, padBehind } = range.value!
+      const RootTag = rootTag as any
+      const WrapTag = wrapTag as any
       const paddingStyle = {
         padding: isHorizontal
           ? `0px ${padBehind}px 0px ${padFront}px`

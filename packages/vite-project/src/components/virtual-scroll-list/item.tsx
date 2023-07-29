@@ -1,5 +1,14 @@
 /* eslint-disable vue/one-component-per-file */
-import { computed, defineComponent, onMounted, onUnmounted, onUpdated, ref, Ref } from 'vue-demi'
+import {
+  computed,
+  defineComponent,
+  isVue2,
+  onMounted,
+  onUnmounted,
+  onUpdated,
+  ref,
+  type Ref
+} from 'vue-demi'
 import { ItemProps, SlotProps } from './props'
 
 const useResizeChange = (props: any, rootRef: Ref<HTMLElement | null>, emit: any) => {
@@ -41,24 +50,28 @@ export const Item = defineComponent({
   name: 'VirtualListItem',
   props: ItemProps,
   emits: ['itemResize'],
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     const rootRef = ref<HTMLElement | null>(null)
     useResizeChange(props, rootRef, emit)
 
     return () => {
-      const {
-        tag: Tag,
-        component: Comp,
-        extraProps = {},
-        index,
-        source,
-        scopedSlots = {},
-        uniqueKey
-      } = props
-      const mergedProps = {
+      const { tag, component, extraProps = {}, index, source, scopedSlots = {}, uniqueKey } = props
+
+      const Tag = tag as any
+      const Comp = component as any
+
+      const vue2Props = {
         ...extraProps,
         source,
         index
+      }
+
+      let mergedProps: any = vue2Props
+
+      if (isVue2) {
+        mergedProps = {
+          props: vue2Props
+        }
       }
 
       return (
@@ -79,7 +92,9 @@ export const Slot = defineComponent({
     useResizeChange(props, rootRef, emit)
 
     return () => {
-      const { tag: Tag, uniqueKey } = props
+      const { tag, uniqueKey } = props
+
+      const Tag = tag as any
 
       return (
         <Tag ref={rootRef} key={uniqueKey}>
