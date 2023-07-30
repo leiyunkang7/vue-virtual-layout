@@ -12,8 +12,9 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
   },
   "dependencies": {
-    "vue": "^3.3.4",
-    "@vue-virtual-layout/v3": "file:../../packages/build-v3"
+    "@vue-virtual-layout/v3": "file:../../packages/build-v3",
+    "mockjs": "^1.1.0",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.33.0",

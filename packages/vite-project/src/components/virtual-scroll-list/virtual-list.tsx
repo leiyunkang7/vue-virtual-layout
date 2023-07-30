@@ -11,6 +11,7 @@ import {
 import Virtual from './virtual'
 import { Item, Slot } from './item'
 import { VirtualProps } from './props'
+import { defineRef } from '../../utils/compact'
 
 enum EVENT_TYPE {
   ITEM = 'itemResize',
@@ -33,12 +34,21 @@ export default defineComponent({
   name: 'VirtualList',
   props: VirtualProps,
   emits: ['totop', 'scroll', 'tobottom', 'resized'],
-  setup(props, { emit, slots, expose }) {
+  setup(props, context) {
+    const { emit, slots, expose } = context
+    const refs = (context as any).refs
+
     const isHorizontal = props.direction === 'horizontal'
     const directionKey = isHorizontal ? 'scrollLeft' : 'scrollTop'
     const range = ref<Range | null>(null)
-    const root = ref<HTMLElement | null>()
-    const shepherd = ref<HTMLDivElement | null>(null)
+
+    // const root = ref<HTMLElement | null>()
+    // const shepherd = ref<HTMLDivElement | null>(null)
+
+    const { elRef: root, refBind: rootBind } = defineRef({ refs, refName: 'root' })
+
+    const { elRef: shepherd, refBind: shepherdBind } = defineRef({ refs, refName: 'shepherd' })
+
     let virtual: Virtual
 
     /**
@@ -354,7 +364,7 @@ export default defineComponent({
       const { header, footer } = slots
 
       return (
-        <RootTag ref={root} onScroll={!pageMode && onScroll}>
+        <RootTag ref={rootBind} onScroll={!pageMode && onScroll}>
           {/* header slot */}
           {header && (
             <Slot
@@ -390,7 +400,7 @@ export default defineComponent({
 
           {/* an empty element use to scroll to bottom */}
           <div
-            ref={shepherd}
+            ref={shepherdBind}
             style={{
               width: isHorizontal ? '0px' : '100%',
               height: isHorizontal ? '100%' : '0px'

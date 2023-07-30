@@ -2,7 +2,6 @@
 import {
   computed,
   defineComponent,
-  isVue2,
   onMounted,
   onUnmounted,
   onUpdated,
@@ -10,6 +9,7 @@ import {
   type Ref
 } from 'vue-demi'
 import { ItemProps, SlotProps } from './props'
+import { defineRef, getProps } from '../../utils/compact'
 
 const useResizeChange = (props: any, rootRef: Ref<HTMLElement | null>, emit: any) => {
   let resizeObserver: ResizeObserver | null = null
@@ -50,8 +50,11 @@ export const Item = defineComponent({
   name: 'VirtualListItem',
   props: ItemProps,
   emits: ['itemResize'],
-  setup(props, { emit, slots }) {
-    const rootRef = ref<HTMLElement | null>(null)
+  setup(props, context) {
+    const { emit } = context
+    const refs = (context as any).refs
+
+    const { elRef: rootRef, refBind } = defineRef({ refs, refName: 'rootRef' })
     useResizeChange(props, rootRef, emit)
 
     return () => {
@@ -66,16 +69,10 @@ export const Item = defineComponent({
         index
       }
 
-      let mergedProps: any = vue2Props
-
-      if (isVue2) {
-        mergedProps = {
-          props: vue2Props
-        }
-      }
+      const mergedProps = getProps(vue2Props)
 
       return (
-        <Tag key={uniqueKey} ref={rootRef}>
+        <Tag key={uniqueKey} ref={refBind}>
           <Comp {...mergedProps} scopedSlots={scopedSlots} />
         </Tag>
       )
@@ -87,8 +84,11 @@ export const Slot = defineComponent({
   name: 'VirtualListSlot',
   props: SlotProps,
   emits: ['slotResize'],
-  setup(props, { slots, emit }) {
-    const rootRef = ref<HTMLElement | null>(null)
+  setup(props, context) {
+    const { emit, slots } = context
+    const refs = (context as any).refs
+
+    const { elRef: rootRef, refBind } = defineRef({ refs, refName: 'rootRef' })
     useResizeChange(props, rootRef, emit)
 
     return () => {
@@ -97,7 +97,7 @@ export const Slot = defineComponent({
       const Tag = tag as any
 
       return (
-        <Tag ref={rootRef} key={uniqueKey}>
+        <Tag ref={refBind} key={uniqueKey}>
           {slots.default?.()}
         </Tag>
       )

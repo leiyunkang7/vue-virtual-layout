@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 80px; overflow: hidden;">
     {{index}}.{{ source?.desc }}
   </div>
 </template>

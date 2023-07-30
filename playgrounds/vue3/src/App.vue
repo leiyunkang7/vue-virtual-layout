@@ -1,38 +1,13 @@
 <script setup lang="ts">
 import VueVirtualLayout from '@vue-virtual-layout/v3'
+import ItemComponent from './item'
 </script>
 
 <template>
   <div>
-    <VueVirtualLayout text="按钮"></VueVirtualLayout>
+    <VueVirtualLayout text="按钮" :item-component="ItemComponent" ></VueVirtualLayout>
   </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>

@@ -291,7 +291,7 @@ export default class Virtual {
   }
 
   // setting to a new range and rerender
-  updateRange(start: any, end: number) {
+  updateRange(start: number, end: number) {
     this.range.start = start
     this.range.end = end
     this.range.padFront = this.getPadFront()
