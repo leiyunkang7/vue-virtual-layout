@@ -1,6 +1,6 @@
 <template>
   <div style="height: 80px; overflow: hidden;">
-    {{index}}.{{ source?.desc }}
+    {{source?.index}}.{{ source?.desc }}
   </div>
 </template>
 

@@ -1,4 +1,4 @@
-import { computed, isVue2, isVue3, ref } from 'vue-demi'
+import { isVue2, isVue3, onUpdated, ref } from 'vue-demi'
 
 export function getProps(props: any) {
   let mergedProps = props
@@ -12,7 +12,7 @@ export function getProps(props: any) {
   return mergedProps
 }
 
-export function defineRef({ refs, refName }: { refs: any; refName: string }) {
+export function defineRef(context: any, refName: string) {
   const elRef = ref()
   if (isVue3) {
     return {
@@ -21,8 +21,12 @@ export function defineRef({ refs, refName }: { refs: any; refName: string }) {
     }
   }
 
+  onUpdated(() => {
+    elRef.value = context.refs[refName]
+  })
+
   return {
-    elRef: computed(() => refs[refName]),
+    elRef,
     refBind: refName
   }
 }

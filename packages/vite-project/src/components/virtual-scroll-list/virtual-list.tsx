@@ -45,9 +45,9 @@ export default defineComponent({
     // const root = ref<HTMLElement | null>()
     // const shepherd = ref<HTMLDivElement | null>(null)
 
-    const { elRef: root, refBind: rootBind } = defineRef({ refs, refName: 'root' })
+    const { elRef: root, refBind: rootBind } = defineRef(context, 'root')
 
-    const { elRef: shepherd, refBind: shepherdBind } = defineRef({ refs, refName: 'shepherd' })
+    const { elRef: shepherd, refBind: shepherdBind } = defineRef(context, 'shepherd')
 
     let virtual: Virtual
 

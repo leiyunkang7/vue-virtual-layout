@@ -1,13 +1,5 @@
 /* eslint-disable vue/one-component-per-file */
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  onUnmounted,
-  onUpdated,
-  ref,
-  type Ref
-} from 'vue-demi'
+import { computed, defineComponent, onMounted, onUnmounted, onUpdated, type Ref } from 'vue-demi'
 import { ItemProps, SlotProps } from './props'
 import { defineRef, getProps } from '../../utils/compact'
 
@@ -52,11 +44,9 @@ export const Item = defineComponent({
   emits: ['itemResize'],
   setup(props, context) {
     const { emit } = context
-    const refs = (context as any).refs
 
-    const { elRef: rootRef, refBind } = defineRef({ refs, refName: 'rootRef' })
+    const { elRef: rootRef, refBind } = defineRef(context, 'rootRef')
     useResizeChange(props, rootRef, emit)
-
     return () => {
       const { tag, component, extraProps = {}, index, source, scopedSlots = {}, uniqueKey } = props
 
@@ -86,9 +76,9 @@ export const Slot = defineComponent({
   emits: ['slotResize'],
   setup(props, context) {
     const { emit, slots } = context
-    const refs = (context as any).refs
 
-    const { elRef: rootRef, refBind } = defineRef({ refs, refName: 'rootRef' })
+    const { elRef: rootRef, refBind } = defineRef(context, 'rootRef')
+
     useResizeChange(props, rootRef, emit)
 
     return () => {
