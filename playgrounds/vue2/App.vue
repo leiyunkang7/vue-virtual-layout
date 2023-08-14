@@ -1,5 +1,6 @@
 <script >
 import VueVirtualLayout from '@vue-virtual-layout/v2'
+import '@vue-virtual-layout/v2/dist/vue-virtual-layout.css'
 import ItemComponent from './item-component.vue'
 
 export default {

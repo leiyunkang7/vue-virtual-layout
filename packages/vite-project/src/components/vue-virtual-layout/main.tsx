@@ -52,6 +52,10 @@ export default defineComponent({
     itemComponent: {
       type: Object,
       required: true
+    },
+    sidebarList: {
+      type: Array,
+      default: () => []
     }
   },
   setup(props, context) {
@@ -68,21 +72,25 @@ export default defineComponent({
     return () => (
       <div>
         <HeaderComponent>{slots.head?.()}</HeaderComponent>
-        <div>
-          <Sidebar></Sidebar>
+        <div class="flex ">
+          <Sidebar
+            class="flex-1 grow-0 shrink-0 w-20"
+            sidebar-list={props.sidebarList}
+            v-slots={{ default: slots.sidebarItem }}
+          ></Sidebar>
+          <VirtualScrollList
+            class="list-page scroll-touch"
+            ref={vsl}
+            data-key={'id'}
+            data-sources={items.value}
+            data-component={props.itemComponent}
+            estimate-size={80}
+            item-class="list-item-page"
+            page-mode={true}
+            onTotop={totop}
+            onTobottom={tobottom}
+          />
         </div>
-        <VirtualScrollList
-          class="list-page scroll-touch"
-          ref={vsl}
-          data-key={'id'}
-          data-sources={items.value}
-          data-component={props.itemComponent}
-          estimate-size={80}
-          item-class="list-item-page"
-          page-mode={true}
-          onTotop={totop}
-          onTobottom={tobottom}
-        />
       </div>
     )
   }
