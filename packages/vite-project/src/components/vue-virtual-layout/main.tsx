@@ -54,7 +54,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  setup(props, context) {
     const vsl = ref()
 
     const items = ref(generateMockData(TOTAL_COUNT))
@@ -63,9 +63,11 @@ export default defineComponent({
 
     function tobottom() {}
 
+    const { slots } = context
+
     return () => (
       <div>
-        <HeaderComponent></HeaderComponent>
+        <HeaderComponent>{slots.head?.()}</HeaderComponent>
         <div>
           <Sidebar></Sidebar>
         </div>

@@ -9,7 +9,12 @@ export default defineComponent({
   setup(props) {
     return () => (
       <div>
-        <VueVirtualLayout type="button" text="我是按钮" itemComponent={Item}></VueVirtualLayout>
+        <VueVirtualLayout
+          itemComponent={Item}
+          v-slots={{
+            head: () => <div>head</div>
+          }}
+        ></VueVirtualLayout>
       </div>
     )
   }

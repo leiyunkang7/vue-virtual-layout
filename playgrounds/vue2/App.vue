@@ -17,6 +17,10 @@ export default {
 
 <template>
   <div>
-    <VueVirtualLayout type="button" text="我是按钮" :itemComponent="ItemComponent"></VueVirtualLayout>
+    <VueVirtualLayout :itemComponent="ItemComponent">
+    <template #head>
+      <div>我是头部</div>
+    </template>
+    </VueVirtualLayout>
   </div>
 </template>
