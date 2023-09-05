@@ -22,21 +22,42 @@ export default defineComponent({
       }
     ])
 
+    const tabList = ref([
+      {
+        name: `aa`,
+        id: 1
+      },
+      {
+        name: `bb`,
+        id: 2
+      },
+      {
+        name: `cc`,
+        id: 3
+      }
+    ])
+
+    const tabActive= ref<number|string>(1)
+
     return () => (
       <div>
         <VueVirtualLayout
           itemComponent={Item}
           sidebarList={sidebarList.value}
+          tabList={tabList.value}
+          v-model:tabActive={tabActive.value}
           v-slots={{
             head: () => (
               <div>
                 aaaa
+                {tabActive.value}
                 <StickyWrapper>wwwwwwwww</StickyWrapper>
                 bbbbb
                 <StickyWrapper>qqqqqqq</StickyWrapper>
                 ccccccc
               </div>
             ),
+            tabItem: ({ item }: any) => <div>{item.name}</div>,
             sidebarItem: (params: any) => {
               const { item, index } = params || {}
               return (

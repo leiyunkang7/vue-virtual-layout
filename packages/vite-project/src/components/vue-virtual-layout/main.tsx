@@ -4,6 +4,9 @@ import Sidebar from './Sidebar'
 import './style.css'
 import VirtualScrollList from '../virtual-scroll-list'
 import { Random } from 'mockjs'
+import Tabs from './Tabs'
+import { createStore } from './store'
+import {useVModel} from '@vueuse/core'
 
 interface DataItem {
   index: number
@@ -56,8 +59,17 @@ export default defineComponent({
     sidebarList: {
       type: Array,
       default: () => []
+    },
+    tabList: {
+      type: Array,
+      default: () => []
+    },
+    tabActive: {
+      type: [Number, String],
+      default: 0
     }
   },
+  emits: ['update:tabActive'],
   setup(props, context) {
     const vsl = ref()
 
@@ -67,11 +79,25 @@ export default defineComponent({
 
     function tobottom() {}
 
-    const { slots } = context
+    const { slots, emit } = context
+
+    const tabActive = useVModel(props, 'tabActive', emit)
+
+    const store = createStore({
+      tabActive
+    })
 
     return () => (
       <div>
-        <HeaderComponent>{slots.head?.()}</HeaderComponent>
+        <HeaderComponent>
+          {slots.head?.()}
+          <Tabs
+            tabList={props.tabList}
+            v-slots={{
+              default: slots.tabItem
+            }}
+          ></Tabs>
+        </HeaderComponent>
         <div class="flex ">
           <Sidebar
             class="flex-1 grow-0 shrink-0 w-20"
