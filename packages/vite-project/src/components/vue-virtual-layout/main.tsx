@@ -6,7 +6,7 @@ import VirtualScrollList from '../virtual-scroll-list'
 import { Random } from 'mockjs'
 import Tabs from './Tabs'
 import { createStore } from './store'
-import {useVModel} from '@vueuse/core'
+import { useVModel } from '@vueuse/core'
 
 interface DataItem {
   index: number

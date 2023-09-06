@@ -1,11 +1,10 @@
 import type { Ref } from 'vue-demi'
-import { inject, provide, reactive, } from 'vue-demi'
+import { inject, provide, reactive } from 'vue-demi'
 
-
-
-export function createStore({tabActive}: {tabActive: Ref<string|number>}) {
+export function createStore({ tabActive }: { tabActive: Ref<string | number> }) {
   const store = reactive({
-    tabActive
+    tabActive,
+    stickyWrapperList: [] as any[]
   })
 
   provide('store', store)

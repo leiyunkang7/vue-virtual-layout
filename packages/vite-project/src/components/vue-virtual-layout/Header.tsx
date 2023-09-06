@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue-demi'
+import { defineComponent, onUpdated } from 'vue-demi'
 
 export default defineComponent({
   // props: {},

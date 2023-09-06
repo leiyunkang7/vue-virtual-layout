@@ -11,13 +11,13 @@ export default defineComponent({
   setup(props, context) {
     const { slots } = context
     const store = useStore()
-    function handleClick(e:MouseEvent, item:any) {
+    function handleClick(e: MouseEvent, item: any) {
       store.tabActive = item.id
     }
     return () => (
       <div class="flex">
         {props.tabList.map((item, index) => {
-          return <div onClick={e=> handleClick(e, item)} >{slots.default?.({ item, index })}</div>
+          return <div onClick={(e) => handleClick(e, item)}>{slots.default?.({ item, index })}</div>
         })}
       </div>
     )

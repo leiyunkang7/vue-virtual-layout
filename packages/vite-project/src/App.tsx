@@ -37,7 +37,7 @@ export default defineComponent({
       }
     ])
 
-    const tabActive= ref<number|string>(1)
+    const tabActive = ref<number | string>(1)
 
     return () => (
       <div>
