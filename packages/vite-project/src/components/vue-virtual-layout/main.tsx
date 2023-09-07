@@ -6,7 +6,7 @@ import VirtualScrollList from '../virtual-scroll-list'
 import { Random } from 'mockjs'
 import Tabs from './Tabs'
 import { createStore } from './store'
-import { useVModel } from '@vueuse/core'
+import { useVModel, useWindowScroll } from '@vueuse/core'
 
 interface DataItem {
   index: number
@@ -86,6 +86,8 @@ export default defineComponent({
     const store = createStore({
       tabActive
     })
+
+    const { y } = useWindowScroll()
 
     return () => (
       <div>

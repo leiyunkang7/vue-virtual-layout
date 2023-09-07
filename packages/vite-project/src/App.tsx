@@ -49,12 +49,13 @@ export default defineComponent({
           v-slots={{
             head: () => (
               <div>
-                aaaa
-                {tabActive.value}
+                <div>aaaa</div>
+                <div>{tabActive.value}</div>
+                sssss
                 <StickyWrapper>wwwwwwwww</StickyWrapper>
-                bbbbb
+                <div>bbbbb</div>
                 <StickyWrapper>qqqqqqq</StickyWrapper>
-                ccccccc
+                <div>ccccccc</div>
               </div>
             ),
             tabItem: ({ item }: any) => <div>{item.name}</div>,
