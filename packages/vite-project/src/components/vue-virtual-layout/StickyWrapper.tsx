@@ -1,5 +1,5 @@
 import { defineRef } from '../../utils/compact'
-import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue-demi'
+import { computed, defineComponent, isVue2, nextTick, onMounted, ref, watch } from 'vue-demi'
 import { useStore } from './store'
 import { useWindowScroll } from '@vueuse/core'
 
@@ -92,7 +92,9 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      forceUpdate()
+      if (isVue2) {
+        forceUpdate()
+      }
     })
 
     return () =>

@@ -10,10 +10,13 @@ export function createStore({
 }) {
   const stickyWrapperList = ref<any[]>([])
 
+  const headerRef = ref()
+
   const store = {
     stickyWrapperList,
     tabActive,
-    vslRef
+    vslRef,
+    headerRef
   }
 
   provide('store', store)

@@ -12,8 +12,7 @@ export function getProps(props: any) {
   return mergedProps
 }
 
-export function defineRef(context: any, refName: string) {
-  const elRef = ref()
+export function defineRef(context: any, refName: string, elRef = ref()) {
   if (isVue3) {
     return {
       elRef,
