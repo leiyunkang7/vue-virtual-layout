@@ -12,6 +12,7 @@
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
   },
   "dependencies": {
+    "@vueuse/core": "^10.4.1",
     "vue-demi": "^0.14.5"
   },
   "devDependencies": {

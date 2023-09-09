@@ -19,6 +19,54 @@ export default defineComponent({
       {
         name: `cc`,
         id: 3
+      },
+      {
+        name: `dd`,
+        id: 4
+      },
+      {
+        name: `ee`,
+        id: 5
+      },
+      {
+        name: `ff`,
+        id: 6
+      },
+      {
+        name: `gg`,
+        id: 7
+      },
+      {
+        name: `hhh`,
+        id: 8
+      },
+      {
+        name: `iii`,
+        id: 9
+      },
+      {
+        name: `jjj`,
+        id: 10
+      },
+      {
+        name: `kkk`,
+        id: 11
+      },
+      {
+        name: `lll`,
+        id: 12
+      },
+      {
+        name: `mmm`,
+        id: 13
+      },
+      {
+        name: `nnn`,
+        id: 14
+      },
+      {
+        name: `ooo`,
+        id: 15
       }
     ])
 
@@ -52,9 +100,9 @@ export default defineComponent({
                 <div>aaaa</div>
                 <div>{tabActive.value}</div>
                 sssss
-                <StickyWrapper>wwwwwwwww</StickyWrapper>
+                <StickyWrapper key="1">wwwwwwwww</StickyWrapper>
                 <div>bbbbb</div>
-                <StickyWrapper>qqqqqqq</StickyWrapper>
+                <StickyWrapper key="2">qqqqqqq</StickyWrapper>
                 <div>ccccccc</div>
               </div>
             ),

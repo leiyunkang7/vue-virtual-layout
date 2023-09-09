@@ -10,9 +10,9 @@ export default defineComponent({
   },
   setup(props, context) {
     const { slots } = context
-    const store = useStore()
+    const { tabActive } = useStore()
     function handleClick(e: MouseEvent, item: any) {
-      store.tabActive = item.id
+      tabActive.value = item.id
     }
     return () => (
       <div class="flex">

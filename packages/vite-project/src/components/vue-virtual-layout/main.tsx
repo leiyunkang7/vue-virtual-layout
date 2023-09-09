@@ -7,6 +7,7 @@ import { Random } from 'mockjs'
 import Tabs from './Tabs'
 import { createStore } from './store'
 import { useVModel, useWindowScroll } from '@vueuse/core'
+import StickyWrapper from './StickyWrapper'
 
 interface DataItem {
   index: number
@@ -93,21 +94,18 @@ export default defineComponent({
       <div>
         <HeaderComponent>
           {slots.head?.()}
-          <Tabs
-            tabList={props.tabList}
-            v-slots={{
-              default: slots.tabItem
-            }}
-          ></Tabs>
+          <StickyWrapper key="tab">
+            <Tabs tabList={props.tabList}>{(...args: any) => slots.tabItem?.(...args)}</Tabs>
+          </StickyWrapper>
         </HeaderComponent>
         <div class="flex ">
-          <Sidebar
-            class="flex-1 grow-0 shrink-0 w-20"
-            sidebar-list={props.sidebarList}
-            v-slots={{ default: slots.sidebarItem }}
-          ></Sidebar>
+          <StickyWrapper key="sidebar" widthClass="auto">
+            <Sidebar class="flex-1 grow-0 shrink-0 w-20" sidebar-list={props.sidebarList}>
+              {(...args: any) => slots.sidebarItem?.(...args)}
+            </Sidebar>
+          </StickyWrapper>
           <VirtualScrollList
-            class="list-page scroll-touch"
+            class="list-page scroll-touch z-30"
             ref={vsl}
             data-key={'id'}
             data-sources={items.value}

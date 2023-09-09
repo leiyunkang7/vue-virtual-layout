@@ -5,6 +5,8 @@ export default defineComponent({
   setup(props, context) {
     const { emit, slots } = context
 
-    return () => <div class="text-3xl font-bold  bg-green-50">{slots.default?.()}</div>
+    return () => (
+      <div class="text-3xl font-bold  bg-green-50 relative z-50">{slots.default?.()}</div>
+    )
   }
 })

@@ -1,54 +1,116 @@
 import { defineRef } from '../../utils/compact'
-import { computed, defineComponent, onMounted, ref, watch } from 'vue-demi'
+import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue-demi'
 import { useStore } from './store'
 import { useWindowScroll } from '@vueuse/core'
 
 export default defineComponent({
   // props: {},
   name: 'StickyWrapper',
+  props: {
+    widthClass: {
+      type: String,
+      default: 'w-full'
+    }
+  },
   setup(props, context) {
     const { slots } = context
-    const store = useStore()
+    const { stickyWrapperList } = useStore()
 
     const { elRef: wrapperRef, refBind } = defineRef(context, 'wrapperRef')
 
     const index = ref(0)
 
-    onMounted(() => {
-      index.value = store.stickyWrapperList.length
-      const pre = store.stickyWrapperList[index.value - 1]
-      const top = (pre?.top ?? 0) + (pre?.ref?.offsetHeight ?? 0)
-      console.log(wrapperRef.value.getBoundingClientRect())
-      store.stickyWrapperList.push({
-        ref: wrapperRef.value,
-        top
-      })
-    })
+    watch(
+      wrapperRef,
+      () => {
+        if (!wrapperRef.value) {
+          return
+        }
+        index.value = stickyWrapperList.value.length
+        const pre = stickyWrapperList.value[index.value - 1]
+        // console.log(wrapperRef.value.getBoundingClientRect())
+        const { y } = wrapperRef.value.getBoundingClientRect()
 
-    const self = computed(() => store.stickyWrapperList[index.value])
+        const preHeight = pre?.ref?.getBoundingClientRect()?.height ?? 0
+
+        const preSum = (pre?.preSum ?? 0) + preHeight
+
+        const topThreshold = y - preSum
+
+        // console.log(topThreshold)
+
+        const top = (pre?.top ?? 0) + preHeight
+
+        stickyWrapperList.value.push({
+          ref: wrapperRef.value,
+          pre,
+          topThreshold,
+          top,
+          preSum
+        })
+      },
+      { immediate: true }
+    )
+
+    const self = computed(() => stickyWrapperList.value[index.value])
 
     const { y } = useWindowScroll()
 
-    const position = computed(() => {
-      if (!self.value) {
-        return 'static'
-      }
+    const isThreshold = ref(false)
 
-      if (y.value > self.value.top) {
-        return 'fixed'
-      }
-      return 'static'
+    watch(
+      y,
+      (y) => {
+        const topThreshold = self.value?.topThreshold ?? 0
+        console.log(y, topThreshold)
+        const topY = y - topThreshold
+        isThreshold.value = topY > 0
+      },
+      { immediate: true }
+    )
+
+    const top = computed(() => {
+      return (self?.value?.top ?? 0) + 'px'
     })
 
-    return () => (
-      <div
-        class="w-full  bg-white z-10"
-        ref={refBind}
-        style={{ top: self.value?.top + 'px', position: position.value }}
-      >
-        {slots.default?.()}
-        {index.value}
-      </div>
-    )
+    const placeholderStyle = computed(() => {
+      const { height, width } = self.value?.ref?.getBoundingClientRect() ?? {}
+
+      return {
+        height: `${height ?? 0}px`,
+        width: `${width ?? 0}px`,
+        display: isThreshold.value ? 'block' : 'none'
+      }
+    })
+
+    const updateflag = ref(true)
+    const forceUpdate = () => {
+      updateflag.value = !updateflag.value
+      nextTick().then(() => {
+        updateflag.value = !updateflag.value
+      })
+    }
+
+    onMounted(() => {
+      forceUpdate()
+    })
+
+    return () =>
+      updateflag.value ? (
+        <div class={`bg-white z-40 ${props.widthClass}`} ref={refBind}>
+          <div
+            class={`bg-white  ${props.widthClass}`}
+            style={{
+              position: isThreshold.value ? 'fixed' : 'static',
+              top: top.value
+            }}
+          >
+            {slots.default?.()}
+          </div>
+          <div style={placeholderStyle.value}></div>
+        </div>
+      ) : (
+        ''
+      )
   }
 })
