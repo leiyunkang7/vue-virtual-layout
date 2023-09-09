@@ -62,7 +62,7 @@ export default defineComponent({
       y,
       (y) => {
         const topThreshold = self.value?.topThreshold ?? 0
-        console.log(y, topThreshold)
+        // console.log(y, topThreshold)
         const topY = y - topThreshold
         isThreshold.value = topY > 0
       },

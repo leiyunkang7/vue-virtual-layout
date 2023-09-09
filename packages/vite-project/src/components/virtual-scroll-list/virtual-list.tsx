@@ -163,13 +163,18 @@ export default defineComponent({
       range.value = virtual.getRange()
     }
     // set current scroll position to a expectant index
-    const scrollToIndex = (index: number) => {
+    const scrollToIndex = (
+      index: number,
+      { offset = 0, judgeLast = true }: { offset: number; judgeLast: boolean } = {
+        offset: 0,
+        judgeLast: true
+      }
+    ) => {
       // scroll to bottom
-      if (index >= props.dataSources.length - 1) {
+      if (index >= props.dataSources.length - 1 && judgeLast) {
         scrollToBottom()
       } else {
-        const offset = virtual.getOffset(index)
-        scrollToOffset(offset)
+        scrollToOffset(virtual.getOffset(index) + offset)
       }
     }
     // set current scroll position to a expectant offset

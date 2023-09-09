@@ -27,7 +27,8 @@ const useResizeChange = (props: any, rootRef: Ref<HTMLElement | null>, emit: any
   })
 
   onUpdated(() => {
-    dispatchSizeChange()
+    // dispatchSizeChange()
+    rootRef.value && resizeObserver?.observe(rootRef.value)
   })
 
   onUnmounted(() => {

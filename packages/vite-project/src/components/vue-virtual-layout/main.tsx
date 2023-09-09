@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'vue-demi'
+import { computed, defineComponent, ref, toRefs } from 'vue-demi'
 import HeaderComponent from './Header'
 import Sidebar from './Sidebar'
 import './style.css'
@@ -6,8 +6,9 @@ import VirtualScrollList from '../virtual-scroll-list'
 import { Random } from 'mockjs'
 import Tabs from './Tabs'
 import { createStore } from './store'
-import { useVModel, useWindowScroll } from '@vueuse/core'
+import { useVModel } from '@vueuse/core'
 import StickyWrapper from './StickyWrapper'
+import { defineRef } from '../../utils/compact'
 
 interface DataItem {
   index: number
@@ -68,13 +69,25 @@ export default defineComponent({
     tabActive: {
       type: [Number, String],
       default: 0
+    },
+    dataKey: {
+      type: String,
+      default: 'id'
+    },
+    itemList: {
+      type: Array,
+      default() {
+        return generateMockData(TOTAL_COUNT)
+      }
+    },
+    estimateSize: {
+      type: Number,
+      default: 80
     }
   },
   emits: ['update:tabActive'],
   setup(props, context) {
-    const vsl = ref()
-
-    const items = ref(generateMockData(TOTAL_COUNT))
+    const { itemList } = toRefs(props)
 
     function totop() {}
 
@@ -84,11 +97,18 @@ export default defineComponent({
 
     const tabActive = useVModel(props, 'tabActive', emit)
 
-    const store = createStore({
-      tabActive
+    const { elRef: vslRef, refBind: vslRefBind } = defineRef(context, 'vslRef')
+
+    const { stickyWrapperList } = createStore({
+      tabActive,
+      vslRef
     })
 
-    const { y } = useWindowScroll()
+    const lastWrapper = computed(() => stickyWrapperList.value[stickyWrapperList.value.length - 1])
+
+    const footerHeight = computed(
+      () => `calc(100vh - ${(lastWrapper.value?.preSum ?? 0) + props.estimateSize}px)`
+    )
 
     return () => (
       <div>
@@ -106,16 +126,20 @@ export default defineComponent({
           </StickyWrapper>
           <VirtualScrollList
             class="list-page scroll-touch z-30"
-            ref={vsl}
-            data-key={'id'}
-            data-sources={items.value}
+            ref={vslRefBind}
+            data-key={props.dataKey}
+            data-sources={itemList.value}
             data-component={props.itemComponent}
-            estimate-size={80}
+            estimate-size={props.estimateSize}
             item-class="list-item-page"
             page-mode={true}
             onTotop={totop}
             onTobottom={tobottom}
-          />
+          >
+            {{
+              footer: () => <div class="w-full" style={{ height: footerHeight.value }}></div>
+            }}
+          </VirtualScrollList>
         </div>
       </div>
     )

@@ -1,12 +1,19 @@
 import type { Ref } from 'vue-demi'
 import { inject, provide, ref } from 'vue-demi'
 
-export function createStore({ tabActive }: { tabActive: Ref<string | number> }) {
+export function createStore({
+  tabActive,
+  vslRef
+}: {
+  tabActive: Ref<string | number>
+  vslRef: Ref<any>
+}) {
   const stickyWrapperList = ref<any[]>([])
 
   const store = {
     stickyWrapperList,
-    tabActive
+    tabActive,
+    vslRef
   }
 
   provide('store', store)
