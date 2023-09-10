@@ -331,17 +331,21 @@ export default defineComponent({
     /**
      * public methods
      */
-    expose &&
-      expose({
-        scrollToBottom,
-        getSizes,
-        getSize,
-        getOffset,
-        getScrollSize,
-        getClientSize,
-        scrollToOffset,
-        scrollToIndex
-      })
+
+    const exposes = {
+      scrollToBottom,
+      getSizes,
+      getSize,
+      getOffset,
+      getScrollSize,
+      getClientSize,
+      scrollToOffset,
+      scrollToIndex
+    }
+    if (isVue3) {
+      expose(exposes)
+    }
+    props.handleSetExpose?.(exposes)
 
     return () => {
       const {
@@ -414,5 +418,6 @@ export default defineComponent({
         </RootTag>
       )
     }
-  }
+  },
+  methods: {}
 })

@@ -16,13 +16,16 @@ export function createStore({
 
   const headerRef = ref()
 
+  const vslExposes = ref()
+
   const store = {
     stickyWrapperList,
     tabActive,
     vslRef,
     headerRef,
     estimateSize,
-    itemList
+    itemList,
+    vslExposes
   }
 
   provide('store', store)

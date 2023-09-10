@@ -16,7 +16,7 @@ export default defineComponent({
 
     const { elRef: sidebarWapperRef, refBind } = defineRef(context, 'sidebarWapperRef')
 
-    const { vslRef, stickyWrapperList, headerRef, estimateSize, itemList } = useStore()
+    const { vslRef, stickyWrapperList, headerRef, estimateSize, itemList, vslExposes } = useStore()
 
     const { sidebarList } = toRefs(props)
 
@@ -28,7 +28,8 @@ export default defineComponent({
       }
       const height = lastWrapper.value?.preSum ?? 0
       // debugger
-      vslRef.value.scrollToIndex(item.target, { offset: -height, judgeLast: false })
+      // vslRef.value.scrollToIndex(item.target, { offset: -height, judgeLast: false })
+      vslExposes.value.scrollToIndex?.(item.target, { offset: -height, judgeLast: false })
     }
 
     const styles = computed(() => {

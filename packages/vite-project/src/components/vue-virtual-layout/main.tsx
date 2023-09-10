@@ -99,7 +99,7 @@ export default defineComponent({
 
     const { elRef: vslRef, refBind: vslRefBind } = defineRef(context, 'vslRef')
 
-    const { stickyWrapperList } = createStore({
+    const { stickyWrapperList, vslExposes } = createStore({
       tabActive,
       vslRef,
       estimateSize,
@@ -137,6 +137,7 @@ export default defineComponent({
             page-mode={true}
             onTotop={totop}
             onTobottom={tobottom}
+            handleSetExpose={(expose: any) => (vslExposes.value = expose)}
           >
             {{
               footer: () => <div class="w-full" style={{ height: footerHeight.value }}></div>

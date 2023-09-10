@@ -108,6 +108,9 @@ export const VirtualProps = {
   },
   itemScopedSlots: {
     type: Object
+  },
+  handleSetExpose: {
+    type: Function
   }
 }
 

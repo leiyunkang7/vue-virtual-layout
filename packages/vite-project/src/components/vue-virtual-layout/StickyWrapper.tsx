@@ -48,6 +48,9 @@ export default defineComponent({
           top,
           preSum
         })
+        if (isVue2) {
+          stickyWrapperList.value = stickyWrapperList.value.slice()
+        }
       },
       { immediate: true }
     )
@@ -93,7 +96,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (isVue2) {
-        forceUpdate()
+        // forceUpdate()
       }
     })
 
