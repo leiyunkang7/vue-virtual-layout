@@ -3,10 +3,14 @@ import { inject, provide, ref } from 'vue-demi'
 
 export function createStore({
   tabActive,
-  vslRef
+  vslRef,
+  estimateSize,
+  itemList
 }: {
   tabActive: Ref<string | number>
   vslRef: Ref<any>
+  estimateSize: Ref<number>
+  itemList: Ref<any[]>
 }) {
   const stickyWrapperList = ref<any[]>([])
 
@@ -16,7 +20,9 @@ export function createStore({
     stickyWrapperList,
     tabActive,
     vslRef,
-    headerRef
+    headerRef,
+    estimateSize,
+    itemList
   }
 
   provide('store', store)

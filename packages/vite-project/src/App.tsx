@@ -123,9 +123,9 @@ export default defineComponent({
             ),
             tabItem: ({ item }: any) => <div>{item.name}</div>,
             sidebarItem: (params: any) => {
-              const { item, index } = params || {}
+              const { item, index, activeIndex } = params || {}
               return (
-                <div>
+                <div class={{ 'text-green-600': activeIndex === index }}>
                   sidebar-item {item?.name} {index}
                 </div>
               )

@@ -331,7 +331,7 @@ export default defineComponent({
     /**
      * public methods
      */
-    isVue3 &&
+    expose &&
       expose({
         scrollToBottom,
         getSizes,

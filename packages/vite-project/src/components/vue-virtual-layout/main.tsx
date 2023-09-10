@@ -87,7 +87,7 @@ export default defineComponent({
   },
   emits: ['update:tabActive'],
   setup(props, context) {
-    const { itemList } = toRefs(props)
+    const { itemList, estimateSize } = toRefs(props)
 
     function totop() {}
 
@@ -101,7 +101,9 @@ export default defineComponent({
 
     const { stickyWrapperList } = createStore({
       tabActive,
-      vslRef
+      vslRef,
+      estimateSize,
+      itemList
     })
 
     const lastWrapper = computed(() => stickyWrapperList.value[stickyWrapperList.value.length - 1])
