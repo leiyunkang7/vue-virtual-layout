@@ -112,6 +112,10 @@ export default defineComponent({
       () => `calc(100vh - ${(lastWrapper.value?.preSum ?? 0) + props.estimateSize}px)`
     )
 
+    const scopedSlots = {
+      footer: () => <div class="w-full" style={{ height: footerHeight.value }}></div>
+    }
+
     return () => (
       <div>
         <HeaderComponent>
@@ -138,10 +142,9 @@ export default defineComponent({
             onTotop={totop}
             onTobottom={tobottom}
             handleSetExpose={(expose: any) => (vslExposes.value = expose)}
+            scopedSlots={scopedSlots}
           >
-            {{
-              footer: () => <div class="w-full" style={{ height: footerHeight.value }}></div>
-            }}
+            {scopedSlots}
           </VirtualScrollList>
         </div>
       </div>

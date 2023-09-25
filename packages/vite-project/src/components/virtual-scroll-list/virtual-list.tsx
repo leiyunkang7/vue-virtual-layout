@@ -6,7 +6,8 @@ import {
   onUnmounted,
   ref,
   watch,
-  isVue3
+  isVue3,
+  nextTick
 } from 'vue-demi'
 import Virtual from './virtual'
 import { Item, Slot } from './item'
@@ -304,7 +305,8 @@ export default defineComponent({
       scrollToOffset(virtual.offset ?? 0)
     })
 
-    onMounted(() => {
+    onMounted(async () => {
+      await nextTick()
       // set position
       if (props.start) {
         scrollToIndex(props.start)
