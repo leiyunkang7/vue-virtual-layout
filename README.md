@@ -199,6 +199,16 @@ export default {
 </script>
 ```
 
+## Props
+| 参数 | 说明 | 类型 | 可选值 | 默认 |
+| --- | --- | --- | --- | --- |
+| itemComponent | 每一行对应渲染的vue组件 | Component | - | - |
+| itemList | 列表数据 | Array | - | [] |
+| sidebarList | 侧边栏数据 | SidebarItem[] | - | [] |
+| tabList | tab数据 | TabItem[] | - | [] |
+| tabActive | tab当前激活项的id(支持.sync修饰符,在vue3为v-model:tabActive) | String,Number | - | - |
+
+
 ## item-component
 ``` vue
 <template>
@@ -216,7 +226,7 @@ export default {
       type: Number,
       required: true
     },
-    // 固定参数名称,data中当前行数据
+    // 固定参数名称,itemList中的当前行数据
     source: {
       type: Object,
       required: true
@@ -226,15 +236,6 @@ export default {
 </script>
 
 ```
-
-## Props
-| 参数 | 说明 | 类型 | 可选值 | 默认 |
-| --- | --- | --- | --- | --- |
-| itemComponent | 每一行对应渲染的vue组件 | Component | - | - |
-| itemList | 列表数据 | Array | - | [] |
-| sidebarList | 侧边栏数据 | SidebarItem[] | - | [] |
-| tabList | tab数据 | TabItem[] | - | [] |
-| tabActive | tab当前激活项的id(支持.sync修饰符,在vue3为v-model:tabActive) | String,Number | - | - |
 
 ## SidebarItem
 | 参数 | 说明 | 类型 | 
@@ -258,3 +259,8 @@ export default {
 
 ## StickyWrapper
 StickyWrapper包裹的元素会自动stick顶部, 需要绑定唯一key
+
+## 回到顶部
+```
+window.scrollTo({ top: 0 })
+```
