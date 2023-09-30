@@ -1,7 +1,39 @@
 import { defineComponent, ref } from 'vue-demi'
 import VueVirtualLayout, { StickyWrapper } from '@/components/vue-virtual-layout'
 import Item from './components/item'
+import { Random } from 'mockjs'
 
+interface DataItem {
+  index: number
+  name: string
+  id: string
+  desc: string
+}
+
+function genUniqueId(index: number): string {
+  return `id_${index}_${Date.now()}`
+}
+
+function getSentences(): string {
+  return Random.cparagraph(1, 3)
+}
+
+const TOTAL_COUNT = 1000
+
+function generateMockData(count: number): DataItem[] {
+  const DataItems = []
+  let i = count
+  while (i--) {
+    const index = count - i
+    DataItems.push({
+      index,
+      name: Random.name(),
+      id: genUniqueId(index),
+      desc: getSentences()
+    })
+  }
+  return DataItems
+}
 export default defineComponent({
   components: {
     VueVirtualLayout
@@ -106,11 +138,14 @@ export default defineComponent({
       window.scrollTo({ top: 0 })
     }
 
+    const data = ref(generateMockData(TOTAL_COUNT))
+
     return () => (
       <div>
         <VueVirtualLayout
           itemComponent={Item}
           sidebarList={sidebarList.value}
+          itemList={data.value}
           tabList={tabList.value}
           v-model:tabActive={tabActive.value}
           v-slots={{

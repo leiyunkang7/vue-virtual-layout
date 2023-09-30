@@ -113,7 +113,7 @@ export default defineComponent({
     })
 
     return () => (
-      <div class="overflow-y-scroll box-border" style={styles.value} ref={refBind}>
+      <div class="overflow-y-scroll box-border sidebar" style={styles.value} ref={refBind}>
         {props.sidebarList.map((item, index) => {
           return (
             <div onClick={() => handleClick(item, index)}>

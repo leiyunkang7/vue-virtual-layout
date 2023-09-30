@@ -1,7 +1,6 @@
 {
   "name": "@vue-virtual-layout/v2",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
   "main": "./dist/vue-virtual-layout.cjs",
   "module": "./dist/vue-virtual-layout.mjs",
   "types": "./dist/vue-virtual-layout.d.ts",
@@ -42,5 +41,9 @@
   "peerDependencies": {
     "@vue/composition-api": "^1.7.1",
     "vue": "~2.6.14"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

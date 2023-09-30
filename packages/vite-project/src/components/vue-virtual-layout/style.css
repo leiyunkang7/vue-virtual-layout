@@ -9,3 +9,12 @@ body{
 :root:root{
   scroll-behavior: smooth;
 }
+
+.sidebar::-webkit-scrollbar {
+  width: 0;
+  background-color: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}

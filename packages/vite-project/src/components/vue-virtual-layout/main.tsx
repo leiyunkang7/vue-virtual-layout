@@ -3,7 +3,6 @@ import HeaderComponent from './Header'
 import Sidebar from './Sidebar'
 import './style.css'
 import VirtualScrollList from '../virtual-scroll-list'
-import { Random } from 'mockjs'
 import Tabs from './Tabs'
 import { createStore } from './store'
 import { useVModel } from '@vueuse/core'
@@ -11,37 +10,6 @@ import StickyWrapper from './StickyWrapper'
 import { defineRef } from '../../utils/compact'
 import Big from 'big.js'
 
-interface DataItem {
-  index: number
-  name: string
-  id: string
-  desc: string
-}
-
-function genUniqueId(index: number): string {
-  return `id_${index}_${Date.now()}`
-}
-
-function getSentences(): string {
-  return Random.cparagraph(1, 3)
-}
-
-const TOTAL_COUNT = 1000
-
-function generateMockData(count: number): DataItem[] {
-  const DataItems = []
-  let i = count
-  while (i--) {
-    const index = count - i
-    DataItems.push({
-      index,
-      name: Random.name(),
-      id: genUniqueId(index),
-      desc: getSentences()
-    })
-  }
-  return DataItems
-}
 export default defineComponent({
   components: {
     HeaderComponent
@@ -78,7 +46,7 @@ export default defineComponent({
     itemList: {
       type: Array,
       default() {
-        return generateMockData(TOTAL_COUNT)
+        return []
       }
     },
     estimateSize: {

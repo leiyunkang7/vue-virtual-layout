@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import VueVirtualLayout from '@vue-virtual-layout/v3'
-import ItemComponent from './item'
+import Demo1 from './demo1'
+
 </script>
 
 <template>
-  <div>
-    <VueVirtualLayout text="按钮" :item-component="ItemComponent" ></VueVirtualLayout>
-  </div>
+  <Demo1></Demo1>
 </template>
 
 <style scoped>

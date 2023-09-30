@@ -7,6 +7,8 @@
 2. 滚动与左侧导航菜单相互联动
 3. 滚动顶部收缩, 局部元素stick
 
+![preview](./preview.gif)
+
 ## 安装
 
 ```
@@ -28,6 +30,7 @@ npm i @vue-virtual-layout/v3
       :itemComponent="ItemComponent"
       :sidebarList="sidebarList"
       :tabList="tabList"
+      :itemList="itemList"
       :tabActive.sync="tabActive"
     >
       <template #head>
@@ -66,31 +69,6 @@ import '@vue-virtual-layout/v2/dist/vue-virtual-layout.css'
 // import VueVirtualLayout,{StickyWrapper } from '@vue-virtual-layout/v3'
 // import '@vue-virtual-layout/v3/dist/vue-virtual-layout.css'
 import ItemComponent from './item-component.vue'
-import { Random } from 'mockjs'
-
-function genUniqueId(index) {
-  return `id_${index}_${Date.now()}`
-}
-function getSentences() {
-  return Random.cparagraph(1, 3)
-}
-
-const TOTAL_COUNT = 1000
-
-function generateMockData(count) {
-  const DataItems = []
-  let i = count
-  while (i--) {
-    const index = count - i
-    DataItems.push({
-      index,
-      name: Random.name(),
-      id: genUniqueId(index),
-      desc: getSentences()
-    })
-  }
-  return DataItems
-}
 
 export default {
   components: {
@@ -99,7 +77,21 @@ export default {
   },
   data() {
     return {
-      itemList: generateMockData(1000),
+      itemList: [
+        {
+          "index":1,
+          "name":"Larry Rodriguez",
+          "id":"11",
+          "desc":"一入学除计采单派立还正热东见。将之置所动员六土二图音心主约状度。"
+        },
+        {
+          "index":2,
+          "name":"Deborah Rodriguez",
+          "id":"22",
+          "desc":"收处收铁反参程问商必安青手。派参石公非律平快住年完青千成今基。"
+        }
+        // ...
+      ],
       sidebarList: [
       {
         name: `aa`,
@@ -111,85 +103,7 @@ export default {
         id: 2,
         target: 50
       },
-      {
-        name: `cc`,
-        id: 3,
-        target: 100
-      },
-      {
-        name: `dd`,
-        id: 4,
-        target: 150
-      },
-      {
-        name: `ee`,
-        id: 5,
-        target: 200
-      },
-      {
-        name: `ff`,
-        id: 6,
-        target: 250
-      },
-      {
-        name: `gg`,
-        id: 7,
-        target: 300
-      },
-      {
-        name: `hhh`,
-        id: 8,
-        target: 350
-      },
-      {
-        name: `iii`,
-        id: 9,
-        target: 400
-      },
-      {
-        name: `jjj`,
-        id: 10,
-        target: 450
-      },
-      {
-        name: `kkk`,
-        id: 11,
-        target: 500
-      },
-      {
-        name: `lll`,
-        id: 12,
-        target: 550
-      },
-      {
-        name: `mmm`,
-        id: 13,
-        target: 600
-      },
-      {
-        name: `nnn`,
-        id: 14,
-        target: 650
-      },
-      {
-        name: `ooo`,
-        id: 15,
-        target: 999
-      }
-    ],
-      tabList: [
-      {
-        name: `aa`,
-        id: 1
-      },
-      {
-        name: `bb`,
-        id: 2
-      },
-      {
-        name: `cc`,
-        id: 3
-      }
+      // ...
     ],
       tabActive: 1,
       ItemComponent

@@ -1,7 +1,6 @@
 {
   "name": "@vue-virtual-layout/v2.7",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
   "main": "./dist/vue-virtual-layout.cjs",
   "module": "./dist/vue-virtual-layout.mjs",
   "types": "./dist/vue-virtual-layout.d.ts",
@@ -39,5 +38,9 @@
   },
   "peerDependencies": {
     "vue": "~2.7.14"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
