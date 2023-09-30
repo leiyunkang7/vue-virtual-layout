@@ -7,7 +7,7 @@
 2. 滚动与左侧导航菜单相互联动
 3. 滚动顶部收缩, 局部元素stick
 
-![preview](./preview.gif)
+![preview](https://cdn.jsdelivr.net/gh/leiyunkang7/vue-virtual-layout/preview.gif)
 
 ## 安装
 
