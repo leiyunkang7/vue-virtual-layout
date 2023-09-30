@@ -10,3 +10,4 @@ cache/
 !.test
 .temp
 playgrounds/vue2
+playgrounds/vue2.7

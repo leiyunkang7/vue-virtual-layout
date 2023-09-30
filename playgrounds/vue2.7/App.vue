@@ -4,7 +4,7 @@
       :itemComponent="ItemComponent"
       :sidebarList="sidebarList"
       :tabList="tabList"
-      v-model:tabActive="tabActive"
+      :tabActive.sync="tabActive"
     >
       <template #head>
         <div>

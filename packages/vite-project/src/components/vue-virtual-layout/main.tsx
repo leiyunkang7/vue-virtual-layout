@@ -9,6 +9,7 @@ import { createStore } from './store'
 import { useVModel } from '@vueuse/core'
 import StickyWrapper from './StickyWrapper'
 import { defineRef } from '../../utils/compact'
+import Big from 'big.js'
 
 interface DataItem {
   index: number
@@ -109,7 +110,10 @@ export default defineComponent({
     const lastWrapper = computed(() => stickyWrapperList.value[stickyWrapperList.value.length - 1])
 
     const footerHeight = computed(
-      () => `calc(100vh - ${(lastWrapper.value?.preSum ?? 0) + props.estimateSize}px)`
+      () =>
+        `calc(100vh - ${(lastWrapper.value?.preSum ?? new Big(0))
+          .plus(props.estimateSize)
+          .toNumber()}px)`
     )
 
     const scopedSlots = {

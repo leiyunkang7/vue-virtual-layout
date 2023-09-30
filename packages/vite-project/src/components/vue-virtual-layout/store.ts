@@ -1,3 +1,4 @@
+import type Big from 'big.js'
 import type { Ref } from 'vue-demi'
 import { inject, provide, ref } from 'vue-demi'
 
@@ -12,11 +13,13 @@ export function createStore({
   estimateSize: Ref<number>
   itemList: Ref<any[]>
 }) {
-  const stickyWrapperList = ref<any[]>([])
+  const stickyWrapperList = ref<StickyWrapper[]>([])
 
   const headerRef = ref()
 
   const vslExposes = ref()
+
+  const headerHeight = ref(0)
 
   const store = {
     stickyWrapperList,
@@ -25,7 +28,8 @@ export function createStore({
     headerRef,
     estimateSize,
     itemList,
-    vslExposes
+    vslExposes,
+    headerHeight
   }
 
   provide('store', store)
@@ -44,3 +48,11 @@ export function useStore() {
 }
 
 export type Store = ReturnType<typeof createStore>
+
+export type StickyWrapper = {
+  ref: any
+  pre: any
+  topThreshold: Big
+  top: Big
+  preSum: Big
+}

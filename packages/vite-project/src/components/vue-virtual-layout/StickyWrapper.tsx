@@ -2,6 +2,7 @@ import { defineRef } from '../../utils/compact'
 import { computed, defineComponent, isVue2, nextTick, onMounted, ref, watch } from 'vue-demi'
 import { useStore } from './store'
 import { useWindowScroll } from '@vueuse/core'
+import Big from 'big.js'
 
 export default defineComponent({
   // props: {},
@@ -31,15 +32,15 @@ export default defineComponent({
         // console.log(wrapperRef.value.getBoundingClientRect())
         const { y } = wrapperRef.value.getBoundingClientRect()
 
-        const preHeight = pre?.ref?.getBoundingClientRect()?.height ?? 0
+        const preHeight = new Big(pre?.ref?.getBoundingClientRect()?.height ?? 0)
 
-        const preSum = (pre?.preSum ?? 0) + preHeight
+        const preSum = (pre?.preSum ?? new Big(0)).plus(preHeight)
 
-        const topThreshold = y - preSum
+        const topThreshold = new Big(y).minus(preSum)
 
         // console.log(topThreshold)
 
-        const top = (pre?.top ?? 0) + preHeight
+        const top = new Big(pre?.top ?? 0).plus(preHeight)
 
         stickyWrapperList.value.push({
           ref: wrapperRef.value,
@@ -64,10 +65,10 @@ export default defineComponent({
     watch(
       y,
       (y) => {
-        const topThreshold = self.value?.topThreshold ?? 0
+        const topThreshold = self.value?.topThreshold ?? new Big(0)
         // console.log(y, topThreshold)
-        const topY = y - topThreshold
-        isThreshold.value = topY > 0
+        const topY = new Big(y).minus(topThreshold)
+        isThreshold.value = topY.gt(0)
       },
       { immediate: true }
     )
@@ -87,18 +88,6 @@ export default defineComponent({
     })
 
     const updateflag = ref(true)
-    const forceUpdate = () => {
-      updateflag.value = !updateflag.value
-      nextTick().then(() => {
-        updateflag.value = !updateflag.value
-      })
-    }
-
-    onMounted(() => {
-      if (isVue2) {
-        // forceUpdate()
-      }
-    })
 
     return () =>
       updateflag.value ? (

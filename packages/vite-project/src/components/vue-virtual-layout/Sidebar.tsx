@@ -3,6 +3,7 @@ import { useStore } from './store'
 import { useWindowScroll } from '@vueuse/core'
 import { defineRef } from '../../utils/compact'
 import { debounce } from 'lodash'
+import Big from 'big.js'
 
 export default defineComponent({
   props: {
@@ -16,7 +17,15 @@ export default defineComponent({
 
     const { elRef: sidebarWapperRef, refBind } = defineRef(context, 'sidebarWapperRef')
 
-    const { vslRef, stickyWrapperList, headerRef, estimateSize, itemList, vslExposes } = useStore()
+    const {
+      vslRef,
+      stickyWrapperList,
+      headerRef,
+      estimateSize,
+      itemList,
+      vslExposes,
+      headerHeight
+    } = useStore()
 
     const { sidebarList } = toRefs(props)
 
@@ -26,18 +35,23 @@ export default defineComponent({
       if (!vslRef?.value) {
         return
       }
-      const height = lastWrapper.value?.preSum ?? 0
+      const height = lastWrapper.value?.preSum ?? new Big(0)
       // debugger
-      // vslRef.value.scrollToIndex(item.target, { offset: -height, judgeLast: false })
-      vslExposes.value.scrollToIndex?.(item.target, { offset: -height, judgeLast: false })
+      // console.log('item.target', item.target, 'offset', -height.toNumber())
+      vslExposes.value.scrollToIndex?.(item.target, {
+        offset: -height.toNumber(),
+        judgeLast: false
+      })
     }
 
     const styles = computed(() => {
       if (!lastWrapper.value) return {}
 
-      const height = `calc(100vh - ${lastWrapper.value.preSum ?? 0}px)`
+      const lastSum = lastWrapper.value?.preSum.toNumber() ?? 0
 
-      const paddingBottom = `calc((100vh - ${lastWrapper.value.preSum ?? 0}px) / 2)`
+      const height = `calc(100vh - ${lastSum}px)`
+
+      const paddingBottom = `calc((100vh - ${lastSum}px) / 2)`
       return {
         height,
         paddingBottom
@@ -57,12 +71,12 @@ export default defineComponent({
       if (!lastWrapper.value) {
         return
       }
-      const headerHeight =
-        headerRef.value.getBoundingClientRect().height - lastWrapper.value.topThreshold
 
-      const scrollTop = y.value - lastWrapper.value.topThreshold
+      const scrollTop = new Big(y.value)
+        .minus(headerHeight.value)
+        .plus(lastWrapper.value.topThreshold)
 
-      let target = scrollTop / estimateSize.value
+      let target = scrollTop.div(estimateSize.value).toNumber()
 
       const itemLength = itemList.value.length - 1
 
@@ -71,6 +85,17 @@ export default defineComponent({
       }
 
       const result = getSiderItemByTarget({ sidebarList: sidebarList.value, target })
+
+      // console.log(
+      //   'y.value',
+      //   y.value,
+      //   'scrollTop',
+      //   scrollTop.toNumber(),
+      //   'result',
+      //   result,
+      //   'target',
+      //   target
+      // )
 
       if (!result) {
         return
