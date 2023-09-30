@@ -7,9 +7,12 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@vue-virtual-layout/v2.7": "file:../../packages/build-v2.7",
     "@vitejs/plugin-vue2": "^2.2.0",
+    "@vue-virtual-layout/v2.7": "file:../../packages/build-v2.7",
     "vite": "^4.3.6",
     "vue": "^2.7"
+  },
+  "dependencies": {
+    "mockjs": "^1.1.0"
   }
 }

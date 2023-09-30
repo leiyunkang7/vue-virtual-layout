@@ -13,19 +13,27 @@ export function getProps(props: any) {
 }
 
 export function defineRef(context: any, refName: string, elRef = ref()) {
-  if (isVue3) {
+  if (isVue3 || !context.refs) {
     return {
       elRef,
       refBind: elRef
     }
   }
 
+  const setRefValue = () => {
+    const refValue = context.refs?.[refName]
+    if (!refValue) {
+      return
+    }
+    elRef.value = refValue
+  }
+
   onUpdated(() => {
-    elRef.value = context.refs[refName]
+    setRefValue()
   })
 
   nextTick(() => {
-    elRef.value = context.refs[refName]
+    setRefValue()
   })
 
   // onBeforeUpdate(() => {
