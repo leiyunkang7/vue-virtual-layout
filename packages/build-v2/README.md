@@ -7,6 +7,8 @@
 2. 滚动与左侧导航菜单相互联动
 3. 滚动顶部收缩, 局部元素stick
 
+<a href="https://stackblitz.com/edit/vue-bbglqd?file=src%2FApp.vue">vue3 Demo</a>
+
 ![preview](./preview-v1.gif)
 
 ## 安装
